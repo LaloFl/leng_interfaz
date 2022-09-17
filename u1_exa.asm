@@ -30,6 +30,8 @@ str_minimenu db 'Regresar a menu (1). Salir de programa (0): $'
 ; -----------------------------------------
 ; VAR OPC1
 ; -----------------------------------------
+
+; VAR
 var_nombres db 50 dup(' $')
 var_appat db 50 dup(' $')
 var_apmat db 50 dup(' $')
@@ -41,19 +43,64 @@ var_nctrl db 50 dup(' $')
 var_mate1 db 0
 var_mate2 db 0
 var_mate3 db 0
-var_mate_p db 0
 var_quim1 db 0
 var_quim2 db 0
 var_quim3 db 0
-var_quim_p db 0
 var_hist1 db 0
 var_hist2 db 0
 var_hist3 db 0
-var_hist_p db 0
 var_asist db 0
 
+var_mate_p db 0
+var_hist_p db 0
+var_quim_p db 0
+
+; PREGUNTAS
 str_1_title db '------CAPTURA E IMPRESION DE BOLETA------ $'
-str_1_q1 db 'Ingresa tu nombre: $'
+str_1_nombres db 'Ingresa tu(s) nombre(s) inicial(es): $'
+str_1_appat db 'Ingresa tu apellido paterno: $'
+str_1_apmat db 'Ingresa tu apellido materno: $'
+str_1_nomesc db 'Ingresa el nombre de tu escuela: $'
+str_1_grupo db 'Ingresa tu grupo: $'
+str_1_turno db 'Ingresa tu turno: $'
+str_1_nctrl db 'Ingresa tu no. de control: $'
+
+str_1_mate1 db '(MATE, parcial 1) Ingresa tu calif.: $'
+str_1_mate2 db '(MATE, parcial 2) Ingresa tu calif.: $'
+str_1_mate3 db '(MATE, parcial 3) Ingresa tu calif.: $'
+str_1_quim1 db '(QUIM, parcial 1) Ingresa tu calif.: $'
+str_1_quim2 db '(QUIM, parcial 2) Ingresa tu calif.: $'
+str_1_quim3 db '(QUIM, parcial 3) Ingresa tu calif.: $'
+str_1_hist1 db '(HIST, parcial 1) Ingresa tu calif.: $'
+str_1_hist2 db '(HIST, parcial 2) Ingresa tu calif.: $'
+str_1_hist3 db '(HIST, parcial 3) Ingresa tu calif.: $'
+
+str_1_asist db 'Ingresa tu numero de asistencias (9 total): $'
+
+; FORMATO
+str_1_row_02 db 'DATOS DEL ALUMNO                                                                $'
+str_1_row_03 db '                                                                                $'
+str_1_row_ex db '     ==================        ==================         =================     $'
+str_1_row_04 db '      APELLIDO PATERNO          APELLIDO MATERNO              NOMBRE(S)         $'
+str_1_row_05 db 'DATOS DE LA ESCUELA                                                             $'
+str_1_row_06 db '                                                                                $'
+str_1_row_07 db '    ========================     =======         ============          =====    $'
+str_1_row_08 db '      NOMBRE DE LA ESCUELA        GRUPO             TURNO               CCT     $'
+str_1_row_09 db '|--------------------------------------------------| |-----------------------|  $'
+str_1_row_10 db '|                 |PERIODOS DE EVALUACION |        | |       ASISTENCIA      |  $'
+str_1_row_11 db '|ASIGNATURAS/AREAS|-----------------------|PROMEDIO| |-----------------------|  $'
+str_1_row_12 db '|                 |  1RO  |  2DO  |  3RO  |        | |CALENDARIO ESCOLAR| 9  |  $'
+str_1_row_13 db '|-----------------|--------------------------------| |-----------------------|  $'
+str_1_row_14 db '|   MATEMATICAS   |       |       |       |        | |    ASISTENCIAS   |    |  $'
+str_1_row_15 db '|-----------------|--------------------------------| |-----------------------|  $'
+str_1_row_16 db '|     QUIMICA     |       |       |       |        | | % DE ASISTENCIA  | 100|  $'
+str_1_row_17 db '|-----------------|--------------------------------| |-----------------------|  $'
+str_1_row_18 db '|     HISTORIA    |       |       |       |        |                            $'
+str_1_row_19 db '|--------------------------------------------------| |-----------------------|  $'
+str_1_row_20 db '                                                     |PROMEDIO FINAL DE GRADO|  $'
+str_1_row_21 db '  |--------------------|   |--------------------|    |-----------------------|  $'
+str_1_row_22 db '  |  PROMOVIDO   |     |   | NO PROMOVIDO |     |    |                       |  $'
+str_1_row_23 db '  |--------------------|   |--------------------|    |-----------------------|  $'
 
 ; -----------------------------------------
 ; VAR OPC2
@@ -85,6 +132,12 @@ mov ah, 09
 lea dx, offset str
 int 21h
 endm ; MACRO PARA IMPRIMIR SIN SALTO
+
+printat macro str, x, y
+mov ah, 09
+lea dx, x y offset str
+int 21h
+endm
 
 printintvar macro var
 mov al,var
@@ -182,37 +235,53 @@ jg menu
 
 opc_1:
 clear
+;PREGUNTAS
 println str_1_title
-println str_1_q1
+print str_1_nombres
 input_str var_nombres
-br
-println var_nombres
+print str_1_appat
+input_str var_appat
+print str_1_apmat
+input_str var_apmat
+
+; IMPRESIÓN BOLETA
+
 
 jmp minimenu
 
 opc_2:
 clear
 println str_test
+printintvar n_opc
+br
 jmp minimenu
 
 opc_3:
 clear
 println str_test
+printintvar n_opc
+br
 jmp minimenu
 
 opc_4:
 clear
 println str_test
+printintvar n_opc
+br
 jmp minimenu
 
 opc_5:
 clear
 println str_test
+printintvar n_opc
+br
 jmp minimenu
 
 opc_6:
 clear
 println str_test
+printintvar n_opc
+br
 jmp minimenu
 
 minimenu:

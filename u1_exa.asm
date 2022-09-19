@@ -163,6 +163,46 @@ str_5_igual db 'a es igual a b$'
 ; -----------------------------------------
 str_6_title db '--------CUESTIONARIO 10 PREGUNTAS--------$'
 
+str_6_preg1 db 10,13,7,'1. Cual es tu nombre: $'
+str_6_resp1 db 50 dup(' '), '$'
+str_6_msg1 db  10,13,7,'1. Tu nombre es: $'
+
+str_6_preg2 db 10,13,7,'2. Que carrera cursas: $'
+str_6_resp2 db 50 dup(' '), '$'
+str_6_msg2 db  10,13,7,'2. Cursas la carrera de : $'
+
+str_6_preg3 db 10,13,7,'3. Que semestre cursas: $'
+str_6_resp3 db 50 dup(' '), '$'
+str_6_msg3 db  10,13,7,'3. Cursas el semestre numero $'
+
+str_6_preg4 db 10,13,7,'4. Cual es tu promedio: $'
+str_6_resp4 db 50 dup(' '), '$'
+str_6_msg4 db  10,13,7,'4. Tu promedio es de: $'
+
+str_6_preg5 db 10,13,7,'5. Que especialidad tomaste o te gustaria tomar: $'
+str_6_resp5 db 50 dup(' '), '$'
+str_6_msg5 db  10,13,7,'5. La especialidad que tomaste/tomarias es: $'
+
+str_6_preg6 db 10,13,7,'6. Prefieres trabajar solo o en equipo: $'
+str_6_resp6 db 50 dup(' '), '$'
+str_6_msg6 db  10,13,7,'6. Prefieres trabajar: $'
+
+str_6_preg7 db 10,13,7,'7. Que otra carrera te habria gustado cursar: $'
+str_6_resp7 db 50 dup(' '), '$'
+str_6_msg7 db  10,13,7,'7. Tu segunda opcion de carrera es: $'
+
+str_6_preg8 db 10,13,7,'8. Sabes ingles: $'
+str_6_resp8 db 50 dup(' '), '$'
+str_6_msg8 db  10,13,7,'8. Sabes ingles: $'
+
+str_6_preg9 db 10,13,7,'9. Que campo de tu carrera te parece mas interesante: $'
+str_6_resp9 db 50 dup(' '), '$'
+str_6_msg9 db  10,13,7,'9. El campo mas interesante de tu carrera para ti es: $'
+
+str_6_preg10 db  10,13,7,'10. Que tecnologias de desarrollo de software conoces: $'
+str_6_resp10 db 50 dup(' '), '$'
+str_6_msg10 db  10,13,7,'10. Las tec. de desarrollo de software que conoces son: $'
+
 .code
 mov ax, @data
 mov ds, ax ; LECTURA DE .data
@@ -715,9 +755,49 @@ jmp minimenu
 ; -----------------------------------------
 opc_6:
 clear
-println str_test
-printintvar n_opc
-br
+println str_6_title
+print str_6_preg1
+input_str str_6_resp1
+print str_6_preg2
+input_str str_6_resp2
+print str_6_preg3
+input_str str_6_resp3
+print str_6_preg4
+input_str str_6_resp4
+print str_6_preg5
+input_str str_6_resp5
+print str_6_preg6
+input_str str_6_resp6
+print str_6_preg7
+input_str str_6_resp7
+print str_6_preg8
+input_str str_6_resp8
+print str_6_preg9
+input_str str_6_resp9
+print str_6_preg10
+input_str str_6_resp10
+clear
+print str_6_msg1
+print str_6_resp1
+print str_6_msg2
+print str_6_resp2
+print str_6_msg3
+print str_6_resp3
+print str_6_msg4
+print str_6_resp4
+print str_6_msg5
+print str_6_resp5
+print str_6_msg6
+print str_6_resp6
+print str_6_msg7
+print str_6_resp7
+print str_6_msg8
+print str_6_resp8
+print str_6_msg9
+print str_6_resp9
+print str_6_msg10
+print str_6_resp10
+
 jmp minimenu
 
 ; -----------------------------------------

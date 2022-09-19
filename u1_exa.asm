@@ -10,6 +10,10 @@ n_aux_r db 0
 
 str_empty db ' $'
 str_test db '__TEST__ $'
+str_aux_num db 'Ingresa un numero: $'
+str_ing_a db 'Ingresa el valor de "a": $'
+str_ing_b db 'Ingresa el valor de "b": $'
+str_ing_c db 'Ingresa el valor de "c": $'
 
 ; -----------------------------------------
 ; VAR MENU
@@ -19,9 +23,9 @@ str_menu_0 db '---------------MENU--------------- $'
 str_menu_1 db '1)  CAPTURA E IMPRESION DE BOLETA $'
 str_menu_2 db '2)  OPERACIONES ARITMETICAS $'
 str_menu_3 db '3)  IMPRESION DE CUADRADO $'
-str_menu_4 db '4)  __PLACEHOLDER__ $'
-str_menu_5 db '5)  __PLACEHOLDER__ $'
-str_menu_6 db '6)  __PLACEHOLDER__ $'
+str_menu_4 db '4)  CAPTURA DE 4 NUMEROS $'
+str_menu_5 db '5)  SALTOS LOGICOS $'
+str_menu_6 db '6)  CUESTIONARIO 10 PREGUNTAS $'
 str_menu_7 db '7)  SALIR DEL PROGRAMA $'
 str_menu_8 db 'Ingresa una opcion: $'
 
@@ -119,9 +123,6 @@ str_2_menu_7 db 'Ingresa una opcion: $'
 str_2_minimenu db 'Regresar a submenu (1). Regresara menu principal (2). Salir de programa (0): $'
 
 ; AUX
-str_2_ing_a db 'Ingresa el valor de "a": $'
-str_2_ing_b db 'Ingresa el valor de "b": $'
-str_2_ing_c db 'Ingresa el valor de "c": $'
 str_2_res db 'El resultado es: $'
 
 ; SUMA
@@ -145,17 +146,22 @@ str_3_sym db '#$'
 ; -----------------------------------------
 ; VAR OPC4
 ; -----------------------------------------
-str_4_title db '--------OPERACIONES ARITMETICAS--------$'
+str_4_title db '--------CAPTURA DE 4 NUMEROS--------$'
+str_4_res db 'Ingresaste los numeros: $'
+str_4_coma db ', $'
 
 ; -----------------------------------------
 ; VAR OPC5
 ; -----------------------------------------
-str_5_title db '--------OPERACIONES ARITMETICAS--------$'
+str_5_title db '--------SALTOS LOGICOS--------$'
+str_5_mayor db 'a es mayor que b$'
+str_5_menor db 'a es menor que b$'
+str_5_igual db 'a es igual a b$'
 
 ; -----------------------------------------
 ; VAR OPC6
 ; -----------------------------------------
-str_6_title db '--------OPERACIONES ARITMETICAS--------$'
+str_6_title db '--------CUESTIONARIO 10 PREGUNTAS--------$'
 
 .code
 mov ax, @data
@@ -513,10 +519,10 @@ jg menu2
 _suma:
 clear
 println str_2_suma_title
-print str_2_ing_a
+print str_ing_a
 input_int n_aux1
 br
-print str_2_ing_b
+print str_ing_b
 input_int n_aux2
 br
 br
@@ -528,10 +534,10 @@ jmp minimenu2
 _resta:
 clear
 println str_2_resta_title
-print str_2_ing_a
+print str_ing_a
 input_int n_aux1
 br
-print str_2_ing_b
+print str_ing_b
 input_int n_aux2
 br
 br
@@ -543,10 +549,10 @@ jmp minimenu2
 _mult:
 clear
 println str_2_mult_title
-print str_2_ing_a
+print str_ing_a
 input_int n_aux1
 br
-print str_2_ing_b
+print str_ing_b
 input_int n_aux2
 br
 br
@@ -558,10 +564,10 @@ jmp minimenu2
 _divi:
 clear
 println str_2_divi_title
-print str_2_ing_a
+print str_ing_a
 input_int n_aux1
 br
-print str_2_ing_b
+print str_ing_b
 input_int n_aux2
 br
 br
@@ -573,13 +579,13 @@ jmp minimenu2
 _oper:
 clear
 println str_2_oper_title
-print str_2_ing_a
+print str_ing_a
 input_int n_aux1
 br
-print str_2_ing_b
+print str_ing_b
 input_int n_aux2
 br
-print str_2_ing_c
+print str_ing_c
 input_int n_aux3
 br
 br
@@ -649,9 +655,28 @@ jmp minimenu
 ; -----------------------------------------
 opc_4:
 clear
-println str_test
-printintvar n_opc
+println str_4_title
+print str_aux_num
+input_int n_aux1
 br
+print str_aux_num
+input_int n_aux2
+br
+print str_aux_num
+input_int n_aux3
+br
+print str_aux_num
+input_int n_aux4
+br
+br
+print str_4_res
+printintvar n_aux1
+print str_4_coma
+printintvar n_aux2
+print str_4_coma
+printintvar n_aux3
+print str_4_coma
+printintvar n_aux4
 jmp minimenu
 
 ; -----------------------------------------
@@ -659,9 +684,30 @@ jmp minimenu
 ; -----------------------------------------
 opc_5:
 clear
-println str_test
-printintvar n_opc
+println str_5_title
+print str_ing_a
+input_int n_aux1
 br
+print str_ing_b
+input_int n_aux2
+br
+br
+
+comp n_aux1, n_aux2
+jg _mayor
+jl _menor
+je _igual
+
+_mayor:
+println str_5_mayor
+jmp minimenu
+
+_menor:
+println str_5_menor
+jmp minimenu
+
+_igual:
+println str_5_igual
 jmp minimenu
 
 ; -----------------------------------------

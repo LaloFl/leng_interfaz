@@ -18,7 +18,7 @@ n_opc db 0
 str_menu_0 db '---------------MENU--------------- $'
 str_menu_1 db '1)  CAPTURA E IMPRESION DE BOLETA $'
 str_menu_2 db '2)  OPERACIONES ARITMETICAS $'
-str_menu_3 db '3)  __PLACEHOLDER__ $'
+str_menu_3 db '3)  IMPRESION DE CUADRADO $'
 str_menu_4 db '4)  __PLACEHOLDER__ $'
 str_menu_5 db '5)  __PLACEHOLDER__ $'
 str_menu_6 db '6)  __PLACEHOLDER__ $'
@@ -106,6 +106,56 @@ str_x db 'X$'
 ; -----------------------------------------
 ; VAR OPC2
 ; -----------------------------------------
+; MENÚ
+str_2_title db '--------OPERACIONES ARITMETICAS--------$'
+str_2_menu_1 db '1) SUMA$'
+str_2_menu_2 db '2) RESTA$'
+str_2_menu_3 db '3) MULTIPLICACION$'
+str_2_menu_4 db '4) DIVISION$'
+str_2_menu_5 db '5) OPERACION (a + b) / c$'
+str_2_menu_6 db '6) REGRESAR A MENU PRINCIPAL$'
+str_2_menu_7 db 'Ingresa una opcion: $'
+
+str_2_minimenu db 'Regresar a submenu (1). Regresara menu principal (2). Salir de programa (0): $'
+
+; AUX
+str_2_ing_a db 'Ingresa el valor de "a": $'
+str_2_ing_b db 'Ingresa el valor de "b": $'
+str_2_ing_c db 'Ingresa el valor de "c": $'
+str_2_res db 'El resultado es: $'
+
+; SUMA
+str_2_suma_title db '---------SUMA (a + b)---------$'
+; RESTA
+str_2_resta_title db '---------RESTA (a - b)---------$'
+; MULTIPLICACIÓN
+str_2_mult_title db '---------MULTIPLICACION (a * b)---------$'
+; DIVISIÓN
+str_2_divi_title db '---------DIVISION (a / b)---------$'
+; OPERACIÓN (a + b) / c
+str_2_oper_title db '---------OPERACION (a + b) / c---------$'
+
+
+; -----------------------------------------
+; VAR OPC3
+; -----------------------------------------
+str_3_title db '--------IMPRESION DE CUADRADO--------$'
+str_3_sym db '#$'
+
+; -----------------------------------------
+; VAR OPC4
+; -----------------------------------------
+str_4_title db '--------OPERACIONES ARITMETICAS--------$'
+
+; -----------------------------------------
+; VAR OPC5
+; -----------------------------------------
+str_5_title db '--------OPERACIONES ARITMETICAS--------$'
+
+; -----------------------------------------
+; VAR OPC6
+; -----------------------------------------
+str_6_title db '--------OPERACIONES ARITMETICAS--------$'
 
 .code
 mov ax, @data
@@ -154,8 +204,13 @@ mov ah, 02h
 int 10h
 endm ; MACRO PARA MOVER CURSOR
 
+printat macro ncol, nrow, str
+movecursor ncol, nrow
+print str
+endm
+
 recovercursor macro
-mov dl, 1
+mov dl, 0
 mov dh, 24
 mov bh, 0
 mov ah, 02h
@@ -194,6 +249,12 @@ mov al, n1
 add al, n2
 mov res, al
 endm ; MACRO PARA SUMAR
+
+resta macro n1, n2, res
+mov al, n1
+sub al, n2
+mov res, al
+endm ; MACRO PARA RESTAR
 
 mult macro n1, n2, res
 mov al, n1
@@ -257,29 +318,29 @@ jg menu
 opc_1:
 clear
 ;PREGUNTAS
-; println str_1_title
-; print str_1_nombres
-; input_str var_nombres
-; print str_1_appat
-; input_str var_appat
-; print str_1_apmat
-; input_str var_apmat
-; print str_1_nomesc
-; input_str var_nomesc
-; print str_1_apmat
-; input_str var_apmat
-; print str_1_apmat
-; input_str var_apmat
-; print str_1_apmat
-; input_str var_apmat
-; print str_1_nomesc
-; input_str var_nomesc
-; print str_1_grupo
-; input_str var_grupo
-; print str_1_turno
-; input_str var_turno
-; print str_1_nctrl
-; input_str var_nctrl
+println str_1_title
+print str_1_nombres
+input_str var_nombres
+print str_1_appat
+input_str var_appat
+print str_1_apmat
+input_str var_apmat
+print str_1_nomesc
+input_str var_nomesc
+print str_1_apmat
+input_str var_apmat
+print str_1_apmat
+input_str var_apmat
+print str_1_apmat
+input_str var_apmat
+print str_1_nomesc
+input_str var_nomesc
+print str_1_grupo
+input_str var_grupo
+print str_1_turno
+input_str var_turno
+print str_1_nctrl
+input_str var_nctrl
 print str_1_mate1
 input_int var_mate1
 br
@@ -420,20 +481,167 @@ jmp minimenu
 ; OPCIÓN 2
 ; -----------------------------------------
 opc_2:
+; MENU
+menu2:
 clear
-println str_test
-printintvar n_opc
+println str_2_title
+println str_2_menu_1
+println str_2_menu_2
+println str_2_menu_3
+println str_2_menu_4
+println str_2_menu_5
+println str_2_menu_6
+print str_2_menu_7
+input_int n_opc
+
+comp n_opc, 1
+jl menu2
+je _suma
+comp n_opc, 2
+je _resta
+comp n_opc, 3
+je _mult
+comp n_opc, 4
+je _divi
+comp n_opc, 5
+je _oper
+comp n_opc, 6
+je menu
+jg menu2
+
+; suma
+_suma:
+clear
+println str_2_suma_title
+print str_2_ing_a
+input_int n_aux1
 br
-jmp minimenu
+print str_2_ing_b
+input_int n_aux2
+br
+br
+sum n_aux1, n_aux2, n_aux_r
+print str_2_res
+printintvar n_aux_r
+jmp minimenu2
+; resta
+_resta:
+clear
+println str_2_resta_title
+print str_2_ing_a
+input_int n_aux1
+br
+print str_2_ing_b
+input_int n_aux2
+br
+br
+resta n_aux1, n_aux2, n_aux_r
+print str_2_res
+printintvar n_aux_r
+jmp minimenu2
+; mult
+_mult:
+clear
+println str_2_mult_title
+print str_2_ing_a
+input_int n_aux1
+br
+print str_2_ing_b
+input_int n_aux2
+br
+br
+mult n_aux1, n_aux2, n_aux_r
+print str_2_res
+printintvar n_aux_r
+jmp minimenu2
+; divi
+_divi:
+clear
+println str_2_divi_title
+print str_2_ing_a
+input_int n_aux1
+br
+print str_2_ing_b
+input_int n_aux2
+br
+br
+divi n_aux1, n_aux2, n_aux_r
+print str_2_res
+printintvar n_aux_r
+jmp minimenu2
+; oper
+_oper:
+clear
+println str_2_oper_title
+print str_2_ing_a
+input_int n_aux1
+br
+print str_2_ing_b
+input_int n_aux2
+br
+print str_2_ing_c
+input_int n_aux3
+br
+br
+sum n_aux1, n_aux2, n_aux_r
+divi n_aux_r, n_aux3, n_aux_r
+print str_2_res
+printintvar n_aux_r
+jmp minimenu2
+
+; minimenu2
+minimenu2:
+recovercursor
+print str_2_minimenu
+input_int n_opc
+br
+comp n_opc, 1
+jl salir
+je menu2
+comp n_opc, 2
+jg salir
+je menu
 
 ; -----------------------------------------
 ; OPCIÓN 3
 ; -----------------------------------------
 opc_3:
 clear
-println str_test
-printintvar n_opc
-br
+println str_3_title
+
+; 80*25 (mid: 40*12)
+printat 37, 9, str_3_sym
+printat 38, 9, str_3_sym
+printat 39, 9, str_3_sym
+printat 40, 9, str_3_sym
+printat 41, 9, str_3_sym
+printat 42, 9, str_3_sym
+printat 43, 9, str_3_sym
+
+printat 37, 15, str_3_sym
+printat 38, 15, str_3_sym
+printat 39, 15, str_3_sym
+printat 40, 15, str_3_sym
+printat 41, 15, str_3_sym
+printat 42, 15, str_3_sym
+printat 43, 15, str_3_sym
+
+printat 37, 9, str_3_sym
+printat 37, 10, str_3_sym
+printat 37, 11, str_3_sym
+printat 37, 12, str_3_sym
+printat 37, 13, str_3_sym
+printat 37, 14, str_3_sym
+printat 37, 15, str_3_sym
+
+printat 43, 9, str_3_sym
+printat 43, 10, str_3_sym
+printat 43, 11, str_3_sym
+printat 43, 12, str_3_sym
+printat 43, 13, str_3_sym
+printat 43, 14, str_3_sym
+printat 43, 15, str_3_sym
+
 jmp minimenu
 
 ; -----------------------------------------
@@ -485,3 +693,4 @@ salir:
 clear
 .exit
 end
+

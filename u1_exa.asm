@@ -28,6 +28,8 @@ str_ing_a db 'Ingresa el valor de "a": $'
 str_ing_b db 'Ingresa el valor de "b": $'
 str_ing_c db 'Ingresa el valor de "c": $'
 
+nombre_firma db 'FLORES S. DIEGO E. (#19211641)$'
+
 ; -----------------------------------------
 ; VAR MENU
 ; -----------------------------------------
@@ -266,7 +268,13 @@ endm ; MACRO PARA MOVER CURSOR
 printat macro ncol, nrow, str
 movecursor ncol, nrow
 print str
-endm
+endm ; MACRO PARA IMPRIMIR EN UNA POSICIÓN
+
+printname macro
+movecursor 48, 23
+print nombre_firma
+movecursor 0, 0
+endm ; MACRO PARA IMPRIMIR NOMBRE ABAJO
 
 recovercursor macro
 mov dl, 0
@@ -280,6 +288,7 @@ clear macro
 mov ah, 0
 mov al, 3
 int 10h 
+printname
 endm ; MACRO PARA LIMPIAR
 
 input_str macro var
@@ -382,14 +391,6 @@ print str_1_nombres
 input_str var_nombres
 print str_1_appat
 input_str var_appat
-print str_1_apmat
-input_str var_apmat
-print str_1_nomesc
-input_str var_nomesc
-print str_1_apmat
-input_str var_apmat
-print str_1_apmat
-input_str var_apmat
 print str_1_apmat
 input_str var_apmat
 print str_1_nomesc
